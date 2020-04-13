@@ -23,7 +23,7 @@ const mkdirp = require('mkdirp');
         return targetFile;
     }
     mkdirp.sync(folder);
-    const buffer = await fetch(downloadUrl)	.then(res => res.buffer())
+    const buffer = await fetch(downloadUrl).then(res => res.buffer())
     fs.writeFileSync(targetFile, buffer);
     console.log(`Download to file: ${targetFile}`);
     return targetFile;
