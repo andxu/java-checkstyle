@@ -45,10 +45,10 @@ function checkJavaFile(file, jarFile) {
         exec('java -cp ' + wrap(jarFile) +
             ` -Dconfig_loc=${wrap(path.dirname(configFile))}  com.puppycrawl.tools.checkstyle.Main ` + ' -c ' + wrap(configFile) + ' ' + wrap(file),
             (err, stdout, stderr) => {
-                console.log("Checking directory", file);
+                console.log("Checking file", file);
                 const lines2 = _.filter(stdout.split(/\r?\n/), d => d && !IGNORE_STRINGS.includes(d));
                 if (stderr.match(/ends with [0-9]* errors/)) {
-                    console.log('\x1b[31m%s\x1b[0m', stderr);
+                    printRed(stderr);
                     let prevFile = undefined;
                     for (const output of lines2) {
                         if (output.startsWith('[INFO]')) {
@@ -74,8 +74,6 @@ function checkJavaFile(file, jarFile) {
                     resolve();
                     return;
                 }
-                // Not sure if it is actually possible to get hre
-                // console.error(stdout);
                 resolve();
             });
     });
@@ -104,7 +102,7 @@ async function checkChangesForFile() {
         }
         process.exit(1)
     } else {
-        console.log('checkstyle check done')
+        console.log('Checkstyle task done.')
     }
 }
 
