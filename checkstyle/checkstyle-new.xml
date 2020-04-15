@@ -393,5 +393,6 @@ page at https://checkstyle.org/config.html -->
         <module name="MultipleVariableDeclarations"/>
         <module name="ArrayTypeStyle"/>
         <module name="MissingSwitchDefault"/>
+        <module name="ParameterAssignment"/>
     </module>
 </module>
