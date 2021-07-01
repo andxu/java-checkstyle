@@ -8,7 +8,7 @@ import normalize from "normalize-path";
 import color from "ansi-colors";
 const errors = {};
 const ROOT = process.argv[2] || process.cwd();
-const configPath = `../checkstyle/checkstyle-new.xml`;
+const configPath = `./checkstyle/checkstyle-new.xml`;
 const IGNORE_STRINGS = ['Starting audit...', 'Audit done.'];
 if (!fs.isDirectorySync(ROOT)) {
     console.log(`${ROOT} cannot be founded`)
@@ -23,7 +23,7 @@ function readChangeTxt(file) {
     return [];
 }
 
-const configFile = path.join(path.resolve(''), configPath);
+const configFile = path.resolve(configPath);
 
 function wrap(_path) {
     if (_path.includes(' ')) {
