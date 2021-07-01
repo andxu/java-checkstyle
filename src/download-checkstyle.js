@@ -1,7 +1,7 @@
 const metaUrl = `https://api.github.com/repos/checkstyle/checkstyle/releases/latest`;
 
 import { fetchJson } from 'fetch-json';
-import { fetch } from 'node-fetch';
+import fetch from 'node-fetch';
 import  _ from 'lodash';
 import fs from 'fs-plus';
 import  path  from 'path';
@@ -11,7 +11,7 @@ import mkdirp from 'mkdirp';
      return fetchJson.get(metaUrl);
  }
 
- async function installLatestCheckstyle(folder) {
+ export async function installLatestCheckstyle(folder) {
     const data = await getMeta();
     const downloadUrl = _.get(data, 'assets[0].browser_download_url');
     if (!downloadUrl || !downloadUrl.startsWith('https://')) {
@@ -30,4 +30,3 @@ import mkdirp from 'mkdirp';
  }
 
 
-exports.installLatestCheckstyle = installLatestCheckstyle;

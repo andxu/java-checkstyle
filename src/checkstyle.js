@@ -23,7 +23,7 @@ function readChangeTxt(file) {
     return [];
 }
 
-const configFile = path.join(__dirname, configPath);
+const configFile = path.join(path.resolve(''), configPath);
 
 function wrap(_path) {
     if (_path.includes(' ')) {
