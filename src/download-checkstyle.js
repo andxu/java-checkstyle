@@ -3,7 +3,7 @@ const metaUrl = `https://api.github.com/repos/checkstyle/checkstyle/releases/lat
 import { fetchJson } from 'fetch-json';
 import { fetch } from 'node-fetch';
 import  _ from 'lodash';
-import fs from ('fs-plus')
+import fs from 'fs-plus';
 import  path  from 'path';
 import mkdirp from 'mkdirp';
 
