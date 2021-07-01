@@ -1,11 +1,11 @@
-const {installLatestCheckstyle} = require("./download-checkstyle");
+import {installLatestCheckstyle} from "./download-checkstyle.js"
 
-const _ = require('lodash')
-const fs = require('fs-plus')
-const exec = require('child_process').exec;
-const path = require('path');
-const normalize = require('normalize-path');
-const color = require('ansi-colors');
+import _ from "lodash";
+import fs from "fs-plus";
+import { exec as exec } from "child_process";
+import path from "path";
+import normalize from "normalize-path";
+import color from "ansi-colors";
 const errors = {};
 const ROOT = process.argv[2] || process.cwd();
 const configPath = `../checkstyle/checkstyle-new.xml`;

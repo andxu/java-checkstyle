@@ -1,11 +1,11 @@
 const metaUrl = `https://api.github.com/repos/checkstyle/checkstyle/releases/latest`;
 
-const fetchJson = require('fetch-json');
-const fetch = require('node-fetch');
-const _ = require('lodash');
-const fs = require('fs-plus')
-const path = require('path');
-const mkdirp = require('mkdirp');
+import { fetchJson } from 'fetch-json';
+import { fetch } from 'node-fetch';
+import  _ from 'lodash';
+import fs from ('fs-plus')
+import  path  from 'path';
+import mkdirp from 'mkdirp';
 
  async function getMeta() {
      return fetchJson.get(metaUrl);
