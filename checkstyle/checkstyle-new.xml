@@ -19,23 +19,25 @@ page at https://checkstyle.org/config.html -->
         <property name="headerFile" value="${config_loc}/java.header"/>
         <property name="fileExtensions" value="java"/>
     </module>
+
     <module name="FileTabCharacter">
         <!-- Checks that there are no tab characters in the file.
         -->
         <property name="eachLine" value="true"/>
     </module>
 
-    <module name="NewlineAtEndOfFile">
-        <property name="lineSeparator" value="lf"/>
-    </module>
+<!--    <module name="NewlineAtEndOfFile">-->
+<!--        <property name="lineSeparator" value="lf"/>-->
+<!--    </module>-->
 
-    <module name="RegexpSingleline">
-        <!-- Checks that FIXME is not used in comments.  TODO is preferred.
-        -->
-        <property name="format" value="((//.*)|(\*.*))FIXME"/>
-        <property name="message"
-                  value='TODO is preferred to FIXME.  e.g. "TODO(johndoe): Refactor when v2 is released."'/>
-    </module>
+<!--    <module name="RegexpSingleline">-->
+<!--        &lt;!&ndash; Checks that FIXME is not used in comments.  TODO is preferred.-->
+<!--        &ndash;&gt;-->
+<!--        <property name="format" value="((//.*)|(\*.*))FIXME"/>-->
+<!--        <property name="message"-->
+<!--                  value='TODO is preferred to FIXME.  e.g. "TODO(johndoe): Refactor when v2 is released."'/>-->
+<!--    </module>-->
+
 
     <!-- No trailing spaces allowed -->
     <module name="RegexpSingleline">
@@ -49,18 +51,19 @@ page at https://checkstyle.org/config.html -->
         <property name="message" value="CRLF and CR line endings are prohibited, but this file uses them."/>
     </module>
 
-    <module name="RegexpSingleline">
-        <!-- Checks that TODOs are named.  (Actually, just that they are followed
-             by an open paren.)
-        -->
-        <property name="format" value="((//.*)|(\*.*))TODO [^(]"/>
-        <property name="message"
-                  value='All TODOs should be named.  e.g. "TODO (johndoe): Refactor when v2 is released."'/>
-    </module>
+<!--    <module name="RegexpSingleline">-->
+<!--        &lt;!&ndash; Checks that TODOs are named.  (Actually, just that they are followed-->
+<!--             by an open paren.)-->
+<!--        &ndash;&gt;-->
+<!--        <property name="format" value="((//.*)|(\*.*))TODO [^(]"/>-->
+<!--        <property name="message"-->
+<!--                  value='All TODOs should be named.  e.g. "TODO (johndoe): Refactor when v2 is released."'/>-->
+<!--    </module>-->
 
     <module name="LineLengthCheck">
-        <property name="fileExtensions" value="java" />        
-        <property name="max" value="160" />
+        <property name="fileExtensions" value="java" />
+        <!-- Checks if a line is too long, default value of 120 is too short -->
+        <property name="max" value="${com.puppycrawl.tools.checkstyle.checks.sizes.LineLength.max}" default="260"/>
         <property name="severity" value="error"/>
 
         <!--
@@ -71,7 +74,7 @@ page at https://checkstyle.org/config.html -->
 
         <property name="ignorePattern"
                     value="${com.puppycrawl.tools.checkstyle.checks.sizes.LineLength.ignorePattern}"
-                    default="^(package .*;\s*)|(import .*;\s*)|( *\* *\w+?://.*)$"/>
+                    default="^(package .*;\s*)|(import .*;\s*)|( *\* *https?://.*)$"/>
     </module>
 
     <!-- All Java AST specific tests live under TreeWalker module. -->
@@ -87,13 +90,13 @@ page at https://checkstyle.org/config.html -->
             <!-- Checks for redundant import statements. -->
             <property name="severity" value="error"/>
         </module>
-        <module name="InnerAssignment"/>
+<!--        <module name="InnerAssignment"/>-->
         <module name="OuterTypeFilename"/>
-        <module name="AvoidEscapedUnicodeCharacters">
-            <property name="allowEscapesForControlCharacters" value="true"/>
-            <property name="allowByTailComment" value="true"/>
-            <property name="allowNonPrintableEscapes" value="true"/>
-        </module>
+<!--        <module name="AvoidEscapedUnicodeCharacters">-->
+<!--            <property name="allowEscapesForControlCharacters" value="true"/>-->
+<!--            <property name="allowByTailComment" value="true"/>-->
+<!--            <property name="allowNonPrintableEscapes" value="true"/>-->
+<!--        </module>-->
         <!--
 
         NAMING CHECKS
@@ -119,19 +122,31 @@ page at https://checkstyle.org/config.html -->
             <property name="severity" value="warning"/>
         </module>
 
-<!--        <module name="ConstantNameCheck">-->
-<!--            &lt;!&ndash; Validates non-private, static, final fields against the supplied-->
-<!--            public/package final fields "^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$". &ndash;&gt;-->
-<!--            <metadata name="altname" value="ConstantName"/>-->
-<!--            <property name="applyToPublic" value="true"/>-->
-<!--            <property name="applyToProtected" value="true"/>-->
-<!--            <property name="applyToPackage" value="true"/>-->
-<!--            <property name="applyToPrivate" value="false"/>-->
-<!--            <property name="format" value="^([A-Z][A-Z0-9]*(_[A-Z0-9]+)*|FLAG_.*)$"/>-->
-<!--            <message key="name.invalidPattern"-->
-<!--                     value="Variable ''{0}'' should be in ALL_CAPS (if it is a constant) or be private (otherwise)."/>-->
-<!--            <property name="severity" value="warning"/>-->
-<!--        </module>-->
+        <module name="ConstantNameCheck">
+            <!-- Validates non-private, static, final fields against the supplied
+            public/package final fields "^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$". -->
+            <metadata name="altname" value="ConstantName"/>
+            <property name="applyToPublic" value="true"/>
+            <property name="applyToProtected" value="true"/>
+            <property name="applyToPackage" value="true"/>
+            <property name="applyToPrivate" value="false"/>
+            <property name="format" value="^([A-Z][A-Z0-9]*(_[A-Z0-9]+)*|FLAG_.*)$"/>
+            <message key="name.invalidPattern"
+                     value="Variable ''{0}'' should be in ALL_CAPS (if it is a constant) or be private (otherwise)."/>
+            <property name="severity" value="warning"/>
+        </module>
+
+        <module name="StaticVariableNameCheck">
+            <!-- Validates static, non-final fields against the supplied
+            expression "^[a-z][a-zA-Z0-9]*_?$". -->
+            <metadata name="altname" value="StaticVariableName"/>
+            <property name="applyToPublic" value="true"/>
+            <property name="applyToProtected" value="true"/>
+            <property name="applyToPackage" value="true"/>
+            <property name="applyToPrivate" value="true"/>
+            <property name="format" value="^[a-z][a-zA-Z0-9]*_?$"/>
+            <property name="severity" value="warning"/>
+        </module>
 
         <module name="MemberNameCheck">
             <!-- Validates non-static members against the supplied expression. -->
@@ -164,7 +179,7 @@ page at https://checkstyle.org/config.html -->
         -->
         <module name="LeftCurly">
             <!-- Checks for placement of the left curly brace ('{'). -->
-            <property name="severity" value="warning"/>
+            <property name="severity" value="error"/>
         </module>
 
         <module name="RightCurly">
@@ -185,7 +200,7 @@ page at https://checkstyle.org/config.html -->
             </pre>
             -->
             <property name="option" value="same"/>
-            <property name="severity" value="warning"/>
+            <property name="severity" value="error"/>
         </module>
 
         <!-- Checks for braces around if and else blocks -->
@@ -207,7 +222,7 @@ page at https://checkstyle.org/config.html -->
             -->
             <property name="reliefPattern"
                       value="fall through|Fall through|fallthru|Fallthru|falls through|Falls through|fallthrough|Fallthrough|No break|NO break|no break|continue on"/>
-            <property name="severity" value="error"/>
+            <property name="severity" value="warning"/>
         </module>
 
 
@@ -274,8 +289,15 @@ page at https://checkstyle.org/config.html -->
             <!-- Checks that there is no whitespace before close parens or after
                  open parens.
             -->
+            <property name="severity" value="error"/>
+        </module>
+        <module name="OperatorWrap">
+            <property name="option" value="EOL"/>
+            <property name="tokens"
+                      value="BAND, BOR, BSR, BXOR, DIV, EQUAL, GE, GT, LAND, LE, LITERAL_INSTANCEOF, LOR, LT, MINUS, MOD, NOT_EQUAL, PLUS, QUESTION, SL, SR, STAR "/>
             <property name="severity" value="warning"/>
         </module>
+
         <module name="PackageName">
             <property name="format" value="^[a-z]+(\.[a-z][a-z0-9]*)*$"/>
             <message key="name.invalidPattern"
@@ -339,14 +361,14 @@ page at https://checkstyle.org/config.html -->
             <message key="ws.notPreceded"
                      value="GenericWhitespace ''{0}'' is not preceded with whitespace."/>
         </module>
-<!--        <module name="CustomImportOrder">-->
-<!--            <property name="customImportOrderRules" value="THIRD_PARTY_PACKAGE###SPECIAL_IMPORTS###STANDARD_JAVA_PACKAGE###STATIC"/>-->
-<!--            <property name="specialImportsRegExp" value="^javax\."/>-->
-<!--            <property name="standardPackageRegExp" value="^java\."/>-->
-<!--            <property name="sortImportsInGroupAlphabetically" value="true"/>-->
-<!--            <property name="separateLineBetweenGroups" value="false"/>-->
-<!--            <property name="severity" value="info"/>-->
-<!--        </module>-->
+        <module name="CustomImportOrder">
+            <property name="customImportOrderRules" value="THIRD_PARTY_PACKAGE###SPECIAL_IMPORTS###STANDARD_JAVA_PACKAGE###STATIC"/>
+            <property name="specialImportsRegExp" value="^javax\."/>
+            <property name="standardPackageRegExp" value="^java\."/>
+            <property name="sortImportsInGroupAlphabetically" value="true"/>
+            <property name="separateLineBetweenGroups" value="false"/>
+            <property name="severity" value="info"/>
+        </module>
         <module name="UnusedImports"/>
 
         <module name="EmptyLineSeparator">
@@ -356,21 +378,21 @@ page at https://checkstyle.org/config.html -->
             <property name="tokens" value="VARIABLE_DEF, METHOD_DEF"/>
         </module>
         <!-- Only apply this to local variables; Designers seem to prefer using same parameter names as class members. -->
-        <module name="HiddenField">
-            <property name="tokens" value="VARIABLE_DEF"/>
-        </module>
+<!--        <module name="HiddenField">-->
+<!--            <property name="tokens" value="VARIABLE_DEF"/>-->
+<!--        </module>-->
         <!-- Developer should probably bring up this issue with designer if ever it occurs. -->
         <module name="EqualsHashCode">
-            <property name="severity" value="info" />
+            <property name="severity" value="error" />
         </module>
         <module name="StringLiteralEquality"/>
         <module name="SimplifyBooleanReturn"/>
         <module name="SimplifyBooleanExpression"/>
-        <module name="CommentsIndentation"/>
-        <module name="AtclauseOrder">
-            <property name="tagOrder" value="@param, @return, @throws, @deprecated"/>
-            <property name="target" value="CLASS_DEF, INTERFACE_DEF, ENUM_DEF, METHOD_DEF, CTOR_DEF, VARIABLE_DEF"/>
-        </module>
+<!--        <module name="CommentsIndentation"/>-->
+<!--        <module name="AtclauseOrder">-->
+<!--            <property name="tagOrder" value="@param, @return, @throws, @deprecated"/>-->
+<!--            <property name="target" value="CLASS_DEF, INTERFACE_DEF, ENUM_DEF, METHOD_DEF, CTOR_DEF, VARIABLE_DEF"/>-->
+<!--        </module>-->
         <module name="MethodParamPad"/>
         <module name="AnnotationLocation">
             <property name="id" value="AnnotationLocationMostCases"/>
@@ -381,18 +403,17 @@ page at https://checkstyle.org/config.html -->
             <property name="tokens" value="VARIABLE_DEF"/>
             <property name="allowSamelineMultipleAnnotations" value="true"/>
         </module>
-        <module name="VariableDeclarationUsageDistance"/>
+<!--        <module name="VariableDeclarationUsageDistance"/>-->
         <module name="TypecastParenPad"/>
         <!-- Added some coding problems as INFO.  Up to developer to react to them. -->
         <module name="CovariantEquals">
             <property name="severity" value="info"/>
         </module>
-        <module name="OneTopLevelClass"/>
+<!--        <module name="OneTopLevelClass"/>-->
         <module name="NoLineWrap"/>
         <module name="OneStatementPerLine"/>
-        <module name="MultipleVariableDeclarations"/>
-        <module name="ArrayTypeStyle"/>
-        <module name="MissingSwitchDefault"/>
-        <module name="ParameterAssignment"/>
+<!--        <module name="MultipleVariableDeclarations"/>-->
+<!--        <module name="ArrayTypeStyle"/>-->
+<!--        <module name="MissingSwitchDefault"/>-->
     </module>
 </module>
