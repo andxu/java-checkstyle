@@ -435,17 +435,6 @@ page at https://checkstyle.org/config.html -->
 		  <property name="illegalPattern" value="true"/>
 		  <property name="message" value="Use Flink's Preconditions instead of Guava's Preconditions"/>
 		</module>
-		<!-- forbid the use of org.apache.commons.lang.SerializationUtils -->
-		<module name="Regexp">
-		  <property name="format" value="org\.apache\.commons\.lang\.SerializationUtils"/>
-		  <property name="illegalPattern" value="true"/>
-		  <property name="message" value="Use Flink's InstantiationUtil instead of common's SerializationUtils"/>
-		</module>
-		<module name="Regexp">
-		  <property name="format" value="org\.apache\.commons\.lang3\.SerializationUtils"/>
-		  <property name="illegalPattern" value="true"/>
-		  <property name="message" value="Use Flink's InstantiationUtil instead of common's SerializationUtils"/>
-		</module>
 		<module name="Regexp">
 		  <property name="format" value="org\.apache\.commons\.lang\."/>
 		  <property name="illegalPattern" value="true"/>
